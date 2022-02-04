@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <title>My Page</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="main.css"></script>
+        <script type="text/javascript" src="/eel.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+		<script src="./js/protocoller.js"></script>
+		<script src="./js/navbar.js"></script>
+    </head>
+    <body>
+	<!-- Eine graue horizontale Navigationsleiste, die auf kleinen Bildschirmen vertikal wird -->
+
+	<nav class="navbar  fixed-top  navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#" onclick="document.getElementById('home-tab').click()">Protokoller v1.0</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="" id="navbarNav">
+			<ul class="nav " id="myTab" role="tablist">
+				<li class="nav-item">
+					<a class=" active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" onclick="test(this.id)">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" onclick="test(this.id)">Profile</a>
+				</li>
+				<li class="nav-item">
+					<a class="" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false" onclick="test(this.id)">Contact</a>
+				</li>
+				<li class="nav-item">
+					<a class="" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="false" onclick="test(this.id)">About</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	  
+
+
+</nav>
+	
+<div class="tab-content" id="myTabContent">
+	<div class="tab-pane pageContent fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+		<div id="meeting_header">
+			<h1 id="meeting_title">Meeting-Minutes</h1>
+			<div id="member_container">
+				
+			</div>
+			<div class="guests">
+				<h3>Present Guests</h3>
+				<div id="guest_container">
+				</div>
+				<button class="add_guest btn btn-dark">Add Guest &nbsp; 
+					<span style="font-size:16px; font-weight:bold;">+ </span>
+				</button>		
+			</div>
+		</div>
+		<div class="container1">
+			<h3>Topics</h3>
+			<div id="topic_container"></div>
+			<button id="add_form_field" class="btn btn-dark">Add New Field &nbsp; 
+				<span style="font-size:16px; font-weight:bold;">+ </span>
+			</button>
+		
+		</div>
+	</div>
+	<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">profile tab</div>
+	<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">contact tab</div>
+	<div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+		<h2>About this project</h2>
+		<div>
+			This project is a simple protocoller written in vanilla js for simplicity. 
+		</div>
+
+		<div class="updatePanel">
+		<h3>v1.0</h3>
+		<div>
+			<ul>
+				<li> initial Project release</li>
+				<li> added Teams</li>
+				<li> added labels</li>
+			</ul>
+		</div>	
+		</div>
+		
+
+
+	</div>
+</div>
+	
+   </body>
+   <footer class="footer bg-light align-middle">
+	<div class="footerContent">
+			<span class="text-muted"> &copy 2020 Sven Ehses</span>
+	</div>
+	  
+	</div>
+<html>
