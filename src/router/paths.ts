@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 export const paths = {
   HOME: (): string => "/home",
   START: (): string => "/",
@@ -9,4 +10,5 @@ export const paths = {
   TEAM: (): string => "/teams",
   UNAUTHORIZED: (): string => "/unauthorized",
   RIGHTFAILURE: (): string => "/error",
+  LOGIN: (): string => "/login",
 };
