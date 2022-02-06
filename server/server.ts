@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const express = require('express');
-const  bodyParser = require('body-parser');
-const  cors = require('cors');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
 const corsOptions = {
   origin: 'http://localhost:8081',
@@ -12,10 +12,9 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-const db = require("./models");
+const db = require('./models');
 const Role = db.role;
-db.sequelize.sync({force: true}).then(() => {
+db.sequelize.sync({ force: true }).then(() => {
   console.log('Drop and Resync Db');
   initial();
 });
@@ -34,21 +33,19 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
-
-
 function initial() {
   Role.create({
     id: 1,
-    name: "user"
+    name: 'user',
   });
- 
+
   Role.create({
     id: 2,
-    name: "moderator"
+    name: 'moderator',
   });
- 
+
   Role.create({
     id: 3,
-    name: "admin"
+    name: 'admin',
   });
 }
