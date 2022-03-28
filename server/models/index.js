@@ -18,6 +18,10 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.user = require('./user.model.js')(sequelize, Sequelize);
 db.role = require('./role.model.js')(sequelize, Sequelize);
+db.meeting = require('./meeting.model.js')(sequelize, Sequelize);
+db.topic = require('./topic.model.js')(sequelize, Sequelize);
+
+db.topic.belongsTo(db.meeting);
 db.role.belongsToMany(db.user, {
   through: 'user_roles',
   foreignKey: 'roleId',

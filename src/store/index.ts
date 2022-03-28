@@ -1,8 +1,18 @@
-import { createStore } from "vuex";
+import { createStore } from 'vuex';
+
+import { userModule } from './modules/userModule';
+
+
 
 export default createStore({
+
   state: {},
+
   mutations: {},
+
   actions: {},
-  modules: {},
+
+  modules: { userModule },
+
 });
+

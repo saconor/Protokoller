@@ -5,23 +5,18 @@ import router from './router';
 import store from './store';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { UserRoles } from './rights/userRights';
+import { UserRoles, checkRight } from './rights/userRights';
+import { UserWithRole } from './models/user.model';
 
-function checkRight(userRole: string, role: UserRoles): boolean {
-  return userRole in UserRoles && userRole === role;
-}
+const application = createApp(App).use(store).use(router).mount('#app');
 
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = false;
-  const loggedInUser = { userRole: 'Admin' };
+router.beforeEach(async (to, from) => {
+  const loggedInUser: { user: UserWithRole } = store.getters['userModule/loggedInUser'];
   if (
-    !isAuthenticated &&
     to.path != '/login' &&
-    !checkRight(loggedInUser.userRole, (to.meta['rights'] as UserRoles) || UserRoles.RESTRICTED)
-  )
-    next({ path: '/login' });
-  else next();
+    !checkRight(loggedInUser?.user.roles[0].name, (to.meta['right'] as UserRoles) || UserRoles.RESTRICTED)
+  ) {
+    return '/login';
+  }
   // ...
 });
-
-createApp(App).use(store).use(router).mount('#app');

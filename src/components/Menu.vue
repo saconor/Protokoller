@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light ps-3">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" @click.prevent="accesPage('home')">
       <img src="../assets/el2.png" />
     </a>
     <button
@@ -18,20 +18,44 @@
     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active flex-column d-flex">
-          <div class="arrow arrow-down" style="align-self:center"></div>
-          <a class="nav-link" href="/home">Start</a>
+          <div
+            class="arrow"
+            :class="{ 'arrow-down': $route.path.trim().includes('home') }"
+            style="align-self:center"
+          ></div>
+          <a class="nav-link" @click.prevent="accesPage('home')">Start</a>
         </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="/meeting">Meetings</a>
+        <li class="nav-item active flex-column d-flex">
+          <div
+            class="arrow"
+            :class="{ 'arrow-down': $route.path.trim().includes('meeting') }"
+            style="align-self:center"
+          ></div>
+          <a class="nav-link" @click.prevent="accesPage('meeting')">Meetings</a>
         </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="/storage">Ablage</a>
+        <li class="nav-item active flex-column d-flex">
+          <div
+            class="arrow"
+            :class="{ 'arrow-down': $route.path.trim().includes('storage') }"
+            style="align-self:center"
+          ></div>
+          <a class="nav-link" @click.prevent="accesPage('storage')">Ablage</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/team">Team</a>
+        <li class="nav-item active flex-column d-flex">
+          <div
+            class="arrow"
+            :class="{ 'arrow-down': $route.path.trim().includes('team') }"
+            style="align-self:center"
+          ></div>
+          <a class="nav-link" @click.prevent="accesPage('team')">Team</a>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item active flex-column d-flex">
+          <div
+            class="arrow"
+            :class="{ 'arrow-down': $route.path.trim().includes('none') }"
+            style="align-self:center"
+          ></div>
           <a class="nav-link disabled" href="/diasbled">Disabled</a>
         </li>
       </ul>
@@ -47,13 +71,26 @@
 import { Options, Vue } from "vue-class-component";
 
 @Options({})
-export default class Home extends Vue { }
+export default class Home extends Vue {
+  accesPage(route: string): void {
+    this.$router.push({ path: "/" + route })
+  }
+
+}
 </script>
 
 <style>
 .navbar {
   background-color: #e5e5e55b !important;
   border-bottom: 1px solid lightgrey;
+}
+
+.nav-item {
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background-color: rgba(100, 100, 100, 0.1);
 }
 
 .arrow {

@@ -1,7 +1,10 @@
 <template>
   <Menu v-if="$route.path !== '/login'" style="height: 6vh; width: 100%"></Menu>
 
-  <div :style="'overflow-y: auto;height:' + $route.path == '/login' ? '100vh;' : '90vh;'">
+  <div
+    id="contentPane"
+    :style="{ 'overflow-y': 'auto', 'height': $route.path === '/login' ? '100vh' : '90vh' }"
+  >
     <router-view />
   </div>
 

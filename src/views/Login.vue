@@ -2,7 +2,7 @@
   <div class="position-relative loginPage">
     <div class="loginElement">
       <div class="h4">Login</div>
-      <form class="d-flex flex-column" style="text-align: left">
+      <form class="d-flex flex-column" style="text-align: left" @submit.prevent="login()">
         <div class="form-group" aria-label="Please enter username">
           <label for="usernameInput">Username</label>
           <input
@@ -10,16 +10,23 @@
             class="form-control"
             id="usernameInput"
             name="username"
+            v-model="username"
             placeholder="Username or email"
             aria-placeholder="Username or email"
           />
         </div>
         <div class="form-group" aria-label="Please enter password">
           <label class="mt-3" for="userPassword">Password</label>
-          <input id="userPassword" class="form-control" type="password" name="password" />
+          <input
+            id="userPassword"
+            class="form-control"
+            type="password"
+            v-model="password"
+            name="password"
+          />
         </div>
 
-        <button class="mt-4 btn btn-secondary">Login</button>
+        <button role="submit" class="mt-4 btn btn-secondary">Login</button>
         <div class="mt-2">
           No Account yet?,
           <a href="#">Sign up</a>
@@ -28,6 +35,37 @@
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import { UserWithRole } from '@/models/user.model';
+import store from '@/store';
+import { Options, Vue } from 'vue-class-component';
+
+@Options({})
+export default class Login extends Vue {
+  username = '';
+  password = '';
+
+  async login(): Promise<void> {
+    let request = await fetch('http://localhost:8082/api/auth/signin', {
+      method: 'POST',
+      credentials: "include",
+      headers: new Headers({ 'content-type': 'application/json' }),
+      body: JSON.stringify({ username: this.username, password: this.password }),
+    });
+    if (request.ok) {
+      const user = (await request.json()).data as UserWithRole
+
+      await store.dispatch('userModule/setLoggedInUser', {
+        user,
+      });
+      this.$router.push({ path: '/home' });
+    }
+
+  }
+
+}
+</script>
 
 <style scoped>
 label {
