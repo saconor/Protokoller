@@ -27,25 +27,23 @@
 
 
 
-<script lang="ts">
-import { UserWithRole } from '@/models/user.model';
-import store from '@/store';
-import { Options, Vue } from 'vue-class-component';
+<script setup lang="ts">
+import { UserWithRole } from '../models/user.model';
+import store from '../store';
+import { defineComponent } from 'vue';
 
 
+  const loggedInUser:{
+  user:UserWithRole
+} = store.getters['userModule/loggedInUser'];
 
-@Options({})
-export default class Home extends Vue {
-  loggedInUser: { user: UserWithRole } = store.getters['userModule/loggedInUser'];
-
-  async check(): Promise<void> {
+  async function check(): Promise<void> {
     let request = await fetch('http://localhost:8082/api/auth/check', {
       method: 'GET',
       credentials: "include"
     });
     console.log(request);
   }
-}
 
 </script>
 

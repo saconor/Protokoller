@@ -7,7 +7,7 @@ const config = require('./config/auth.config');
 const app = express();
 const PORT = process.env.PORT || 8082;
 const corsOptions = {
-  origin: 'http://localhost:8081',
+  origin: 'http://localhost:3000',
   credentials:true,
 };
 
@@ -17,10 +17,13 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 const db = require('./models');
-const Role = db.role;
-db.sequelize.sync();
+
 
 // routes
 require('./routes/auth.routes')(app);

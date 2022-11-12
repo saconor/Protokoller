@@ -2,8 +2,10 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Home from '../views/Home.vue';
 import NotFound from '@/views/NotFound.vue';
 import Login from '@/views/Login.vue';
+import Signup from '@/views/Signup.vue';
 import { paths } from './paths';
-import { UserRoles } from '@/rights/userRights';
+import { UserRoles } from '../rights/userRights';
+
 
 
 const routes: Array<RouteRecordRaw & { meta: { right?: UserRoles } }> = [
@@ -22,6 +24,14 @@ const routes: Array<RouteRecordRaw & { meta: { right?: UserRoles } }> = [
       right: UserRoles.ALL,
     },
     component: Login,
+  },
+  {
+    path: paths.SIGNUP(),
+    name: 'Signup',
+    meta: {
+      right: UserRoles.ALL,
+    },
+    component: Signup,
   },
   {
     path: paths.MEETING(),
@@ -45,7 +55,7 @@ const routes: Array<RouteRecordRaw & { meta: { right?: UserRoles } }> = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(""),
   routes,
 });
 

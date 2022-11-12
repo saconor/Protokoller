@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const db = require('../models');
+const db = require('../models/index');
 const config = require('../config/auth.config');
 const User = db.user;
 const Role = db.role;
@@ -26,6 +26,7 @@ exports.checkAuthentication = (req, res) => {
 
 exports.signup = (req, res) => {
   // Save User to Database
+  
   User.create({
     username: req.body.username,
     email: req.body.email,

@@ -29,29 +29,30 @@
         <button role="submit" class="mt-4 btn btn-secondary">Login</button>
         <div class="mt-2">
           No Account yet?,
-          <a href="#">Sign up</a>
+          <a href="#" @click="$router.push({ path: '/signup' })">Sign up</a>
         </div>
       </form>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { UserWithRole } from '@/models/user.model';
-import store from '@/store';
-import { Options, Vue } from 'vue-class-component';
+<script setup lang="ts">
+import { UserWithRole } from '../models/user.model';
+import { useRouter, useRoute } from 'vue-router'
+import store from '../store';
+import { ref } from 'vue';
 
-@Options({})
-export default class Login extends Vue {
-  username = '';
-  password = '';
 
-  async login(): Promise<void> {
+let username = ref('');
+let password = ref('');
+const router = useRouter()
+
+  async function login(): Promise<void> {
     let request = await fetch('http://localhost:8082/api/auth/signin', {
       method: 'POST',
       credentials: "include",
       headers: new Headers({ 'content-type': 'application/json' }),
-      body: JSON.stringify({ username: this.username, password: this.password }),
+      body: JSON.stringify({ username: username, password: password }),
     });
     if (request.ok) {
       const user = (await request.json()).data as UserWithRole
@@ -59,12 +60,12 @@ export default class Login extends Vue {
       await store.dispatch('userModule/setLoggedInUser', {
         user,
       });
-      this.$router.push({ path: '/home' });
+      router.push({ path: '/home' });
     }
 
   }
 
-}
+
 </script>
 
 <style scoped>

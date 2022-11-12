@@ -11,4 +11,5 @@ export const paths = {
   UNAUTHORIZED: (): string => "/unauthorized",
   RIGHTFAILURE: (): string => "/error",
   LOGIN: (): string => "/login",
+  SIGNUP: (): string => "/signup",
 };

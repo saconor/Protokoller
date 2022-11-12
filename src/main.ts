@@ -13,7 +13,7 @@ const application = createApp(App).use(store).use(router).mount('#app');
 router.beforeEach(async (to, from) => {
   const loggedInUser: { user: UserWithRole } = store.getters['userModule/loggedInUser'];
   if (
-    to.path != '/login' &&
+    to.path != '/login' &&  to.path != '/signup' &&
     !checkRight(loggedInUser?.user.roles[0].name, (to.meta['right'] as UserRoles) || UserRoles.RESTRICTED)
   ) {
     return '/login';

@@ -80,46 +80,48 @@
   </div>
 </template>
 
-<script lang="ts">
-import { UserWithRole } from '@/models/user.model';
-import store from '@/store';
+<script setup lang="ts">
+import { UserWithRole } from '../models/user.model';
+import store from '../store';
 import dayjs, { Dayjs } from 'dayjs';
-import { Options, Vue } from 'vue-class-component';
+import { ref } from 'vue';
+import { computed } from '@vue/reactivity';
+import { useStore } from 'vuex';
 
-@Options({})
-export default class Home extends Vue {
-  meetingStarted = false;
-  preparePhase = true;
-  userList: any[] = [];
-  userInput = '';
-  topicList: { title: string; text: string }[] = [];
-  meetingformat = 'JSON';
+ const loggedInUser: { user: UserWithRole } = store.getters['userModule/loggedInUser'];
 
-  interval: any = null;
-  meetingStart: Dayjs = dayjs();
-  currentTime: Dayjs = dayjs();
-  clock = 0;
+  let meetingStarted = ref(false);
+  let preparePhase = ref(true);
+  let userList: any[] = ref([]as any);
+  let userInput = ref('');
+  let topicList: { title: string; text: string }[] = ref([] as any);
+  let meetingformat = ref('JSON');
 
-  startTimer(): void {
-    clearInterval(this.interval);
-    this.interval = setInterval(() => {
-      this.currentTime = dayjs();
+  let interval: any = ref(null);
+  let meetingStart: Dayjs = dayjs() ;
+  let currentTime: Dayjs = dayjs();
+  let clock = 0;
+
+  function startTimer(): void {
+    clearInterval(interval);
+    interval = setInterval(() => {
+      currentTime = dayjs();
     }, 1000);
   }
 
-  async generateMeetingMinutes(): Promise<void> {
+  async function generateMeetingMinutes(): Promise<void> {
     let proceed = false;
     const body = {
-      STARTING_TIME: this.meetingStart.format('HH:mm:ss'),
+      STARTING_TIME: meetingStart.format('HH:mm:ss'),
       MEETING_TITLE: 'Meeting Minutes',
-      MEETING_DATE: this.meetingStart.format('dd,DD.MM.YYYY'),
-      DURATION: this.meetinTime,
-      TEILNEHMER: this.userList,
-      DETAILS: this.topicList,
-      THEMA: this.topicList.map(topic => topic.title),
+      MEETING_DATE: meetingStart.format('dd,DD.MM.YYYY'),
+      DURATION: meetinTime,
+      TEILNEHMER: userList,
+      DETAILS: topicList,
+      THEMA: topicList.map(topic => topic.title),
     };
-    if (this.meetingformat == 'JSON') {
-      this.generateJSONMeetingMinutes(body);
+    if (meetingformat.value == 'JSON') {
+      generateJSONMeetingMinutes(body);
       proceed = true;
     } else {
       const request = await fetch('http://localhost:8082/meeting/generate', {
@@ -134,15 +136,15 @@ export default class Home extends Vue {
       }
     }
     if (proceed) {
-      this.preparePhase = true;
-      this.meetingStarted = false;
-      this.userList = [];
-      this.topicList = [];
-      this.userInput = '';
+      preparePhase.value = true;
+      meetingStarted.value = false;
+      userList = [];
+      topicList = [];
+      userInput.value = '';
     }
   }
 
-  generateJSONMeetingMinutes(jsObject: any): void {
+  function generateJSONMeetingMinutes(jsObject: any): void {
     const bytes = new TextEncoder().encode(JSON.stringify(jsObject));
     const blob = new Blob([bytes], {
       type: 'application/json;charset=utf-8',
@@ -158,34 +160,34 @@ export default class Home extends Vue {
     alert('your file has downloaded!');
   }
 
-  async stopTimer(): Promise<void> {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
+  async function stopTimer(): Promise<void> {
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
     }
-    this.preparePhase = false;
+    preparePhase.value = false;
   }
 
-  get meetinTime(): string {
-    const diff = this.currentTime.diff(this.meetingStart, 'second');
+  const meetinTime = computed(() => {
+    const diff = currentTime.diff(meetingStart, 'second');
     const mindiff = Math.floor(diff / 60);
     const secdiff = diff % 60;
     return (mindiff > 9 ? mindiff : '0' + mindiff) + ':' + (secdiff > 9 ? secdiff : '0' + secdiff);
+  })
+
+  function prepareMeeting(): void {
+    currentTime = dayjs();
+    meetingStart = dayjs();
+    meetingStarted.value = true;
+    preparePhase.value = true;
+    startTimer();
   }
 
-  prepareMeeting(): void {
-    this.currentTime = dayjs();
-    this.meetingStart = dayjs();
-    this.meetingStarted = true;
-    this.preparePhase = true;
-    this.startTimer();
-  }
-
-  addTopicToMeeting(index: number, topicName: string, topicText: string): void {
-    let topic = this.topicList[index];
+  function addTopicToMeeting(index: number, topicName: string, topicText: string): void {
+    let topic = topicList[index];
     let newTopic = { title: topicName, text: topicText };
     if (topic != null) {
-      this.topicList[index] = newTopic;
+      topicList[index] = newTopic;
       let el = document.querySelector("div#contentPane")
       if (el != null)
         el.scroll(0, 20000)
@@ -193,23 +195,22 @@ export default class Home extends Vue {
         console.log("test,", el)
       }
     } else {
-      this.topicList.push(newTopic);
+      topicList.push(newTopic);
     }
   }
 
-  addUserToMeeting(): void {
-    if (this.userInput != '') {
-      this.userList.push(this.userInput);
-      this.userInput = '';
+  function addUserToMeeting(): void {
+    if (userInput.value != '') {
+      userList.push(userInput);
+      userInput.value = '';
     }
   }
 
-  generateMeetingTitle() {
+  function generateMeetingTitle() {
     return dayjs().format('[Meeting Minutes] dd,DD.MM.YYYY');
   }
 
-  loggedInUser: { user: UserWithRole } = store.getters['userModule/loggedInUser'];
-}
+
 </script>
 
 <style scoped>

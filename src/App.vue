@@ -1,27 +1,22 @@
 <template>
-  <Menu v-if="$route.path !== '/login'" style="height: 6vh; width: 100%"></Menu>
+  <Menu
+    v-if="$route.path !== '/login' && $route.path !== '/signup'"
+    style="height: 6vh; width: 100%"
+  ></Menu>
 
   <div
     id="contentPane"
-    :style="{ 'overflow-y': 'auto', 'height': $route.path === '/login' ? '100vh' : '90vh' }"
+    :style="{ 'overflow-y': 'auto', 'height': ($route.path === '/login' || $route.path === '/signup') ? '100vh' : '90vh' }"
   >
     <router-view />
   </div>
 
-  <Footer v-if="$route.path !== '/login'" style="height: 4vh"></Footer>
+  <Footer v-if="$route.path !== '/login' && $route.path !== '/signup'" style="height: 4vh"></Footer>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-
+<script setup lang="ts">
 import Menu from './components/Menu.vue';
-
 import Footer from './components/Footer.vue';
-
-@Options({
-  components: { Menu, Footer },
-})
-export default class extends Vue { }
 </script>
 
 <style lang="scss">
