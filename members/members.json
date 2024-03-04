@@ -1,7 +1,8 @@
 {
-  "members": [
-	{"Name": "Gustavo", "occupation": "founder"},
-	{"Name": "sven", "occupation": "it"},
-	{"Name": "nils", "occupation": "psychology"}	
+	"members": [
+		{
+			"Name": "sven",
+			"occupation": "it"
+		},
 	]
 }
